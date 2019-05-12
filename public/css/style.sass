@@ -1,0 +1,386 @@
+
+.gallery
+
+  display: flex
+  flex-wrap: wrap
+  padding: 30px
+  a
+    margin-bottom: 30px
+    margin-right: 30px
+
+a
+  text-decoration: none
+
+.gallery_item
+  text-decoration: none
+  border: 1px solid #000
+  padding: 5px
+
+  .product_name
+    color: #000
+
+  .product_price
+    color: red
+
+.price
+  color: red
+
+.description
+  width: 50%
+
+a:hover
+  -webkit-box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75)
+  -moz-box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75)
+  box-shadow: 2px 4px 5px 0px rgba(0,0,0,0.75)
+
+.upload-form
+  padding: 30px
+
+
+.galleryWrapper__screen
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: #222
+  opacity: 0.8
+  position: fixed
+  top: 0
+  z-index: 100
+  display: block
+  text-align: center
+
+.galleryWrapper__image
+  max-height: 80%
+  max-width: 80%
+  z-index: 101
+  position: absolute
+  margin: auto
+  left: 0
+  top: 0
+  bottom: 0
+  right: 0
+
+.galleryWrapper__close
+  z-index: 101
+  position: absolute
+  top: 50px
+  right: 50px
+  height: 50px
+  &:hover
+    cursor: pointer
+
+.galleryWrapper__back
+  z-index: 101
+  position: absolute
+  top: 45%
+  left: 50px
+  height: 70px
+  &:hover
+    cursor: pointer
+
+.galleryWrapper__forward
+  z-index: 101
+  position: absolute
+  top: 45%
+  right: 50px
+  height: 70px
+  &:hover
+    cursor: pointer
+
+.feedbackItem:not(:last-child)
+  border-bottom: 1px solid #eaeaea
+  margin-bottom: 10px
+
+
+.feedbackAuthor
+  font-size: 18px
+  font-weight: 700
+  margin-bottom: 5px
+
+
+.feedbackText
+  font-size: 18px
+  padding: 10px
+  border-radius: 5px
+  word-break: break-word
+
+
+.feedbackField
+  width: 100%
+  height: 100px
+  margin-bottom: 22px
+  outline: none
+  padding-left: 15px
+  padding-right: 15px
+  box-sizing: border-box
+  display: block
+  border: 1px solid #eaeaea
+  overflow-y: scroll
+
+
+
+.fbAuthorName
+  width: 390px
+  height: 45px
+  margin-bottom: 22px
+  padding-left: 15px
+  padding-right: 15px
+  box-sizing: border-box
+  display: block
+  border: 1px solid #eaeaea
+
+.feedbackSection
+    width: 50%
+
+
+.feedbackWrap
+  border: 1px solid #eaeaea
+  width: 100%
+  margin: 10px 0
+  padding: 10px
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
+.feedbackForm
+  color: #222222
+  font-size: 12px
+  font-weight: 400
+  margin-bottom: 16px
+  padding-left: 15px
+  padding-right: 15px
+
+
+
+.formLabel
+  font-size: 18px
+  font-weight: 700
+  margin-bottom: 5px
+
+
+.submitBtn
+  float: right
+
+
+.feedbackField
+  padding: 5px
+
+
+.notApprovedFb
+  color: red
+
+
+.validateBtn,
+.deleteBtn
+  margin: 10px
+
+.red-button
+  padding: 12px 20px 12px 20px
+  background-color: #f16d7f
+  color: #ffffff
+  text-decoration: none
+  transition: all 0.2s
+  border: 1px solid transparent
+
+
+.red-button:hover
+  box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.16)
+  color: #f16d7f
+  background-color: #ffffff
+  border: 1px solid #f16d7f
+  cursor: pointer
+
+
+.red-button:active
+  box-shadow: none
+
+.content
+  padding: 50px
+
+.sort_form, .login_form
+  width: 100%
+  margin-bottom: 30px
+
+.registration_form
+  input
+    margin: 10px
+    height: 30px
+    padding: 5px
+
+.login_message
+  width: 100%
+  display: block
+  margin: 10px
+
+
+
+@keyframes blink
+  0%
+    opacity: 0
+  10%
+    opacity: 1
+  90%
+    opacity: 1
+  100%
+    opacity: 0
+
+
+body
+  margin: 0
+  padding: 0
+  outline: none
+  input, button
+    outline: none
+
+.cart-block
+  margin: 20px
+  &_form
+    position: relative
+    display: inline-block
+
+  &_message
+    position: absolute
+    right: 0
+    bottom: 50px
+    background-color: rgba(118, 113, 86, 1)
+    padding: 13px
+    font-size: 11px
+    font-weight: 700
+    font-style: italic
+    color:  #ffffff
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    -webkit-border-radius: 3px
+    -moz-border-radius: 3px
+    border-radius: 3px
+    border: solid #757156 1px
+    max-width: 100%
+    display: none
+
+
+  &_message:before
+    content: ""
+    display: block
+    position: absolute
+    height: 8px
+    width: 8px
+    background-color: rgba(118, 113, 86, 1)
+    transform: rotate(45deg)
+    border-bottom: solid #757156 1px
+    border-right: solid #757156 1px
+    bottom: -5px
+    right: 20px
+
+.count-value
+  display: inline-block
+  margin-left: -4.5px
+  margin-right: -4.5px
+  width: 40px
+  text-align: center
+  border: 1px solid #9f9d8a
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+  color:  #98906e
+  font-size: 14px
+  font-weight: 700
+  padding: 7px 5px
+
+.alter-count-value
+  display: none
+  width: 40px
+  text-align: center
+  padding: 7px 5px
+  color:  #98906e
+  font-size: 14px
+  font-weight: 700
+  margin-left: -4.5px
+  margin-right: -4.5px
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+
+.buy-btn
+  margin-left: 20px
+  color:  #ffffff
+  font-size: 12px
+  line-height: 14px
+  font-weight: 400
+  padding: 8px 10px
+  border: 1px solid  #757156
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+  -webkit-border-radius: 3px
+  -moz-border-radius: 3px
+  border-radius: 3px
+  background: -webkit-linear-gradient(90deg, #605a40 0%, #9f9d80 100%)
+  background: -moz-linear-gradient(90deg, #605a40 0%, #9f9d80 100%)
+  background: -o-linear-gradient(90deg, #605a40 0%, #9f9d80 100%)
+  background: -ms-linear-gradient(90deg, #605a40 0%, #9f9d80 100%)
+  background: linear-gradient(0deg, #605a40 0%, #9f9d80 100%)
+
+  &:hover
+
+    cursor: pointer
+    transition: all 0.2s
+    -webkit-box-shadow: 0 0 3px 2px #8c888c
+    -moz-box-shadow: 0 0 3px 2px #8c888c
+    box-shadow: 0 0 3px 2px #8c888c
+
+
+.decrease-value
+  border-bottom-left-radius: 3px
+  border-top-left-radius: 3px
+  &:hover
+    cursor: pointer
+
+.increase-value
+  border-bottom-right-radius: 3px
+  border-top-right-radius: 3px
+  &:hover
+    cursor: pointer
+
+.change-value-btn
+  text-align: center
+  display: inline-block
+  background: -webkit-linear-gradient(90deg, #84ac2c 0%, #97cf1d 100%)
+  background: -moz-linear-gradient(90deg, #84ac2c 0%, #97cf1d 100%)
+  background: -o-linear-gradient(90deg, #84ac2c 0%, #97cf1d 100%)
+  background: -ms-linear-gradient(90deg, #84ac2c 0%, #97cf1d 100%)
+  background: linear-gradient(0deg, #84ac2c 0%, #97cf1d 100%)
+  width: 19px
+  height: 21px
+  &:hover i.fas
+    color: #757156
+    transition: all 0.2s
+  i.fas
+    color: #ffffff
+    text-align: center
+    font-size: 8px
+    margin-left: -1px
+
+.hidden
+  display: block
+  animation: blink 3s
+  opacity: 0
+  transition: opacity 3s
+
+.redirect_link
+  margin: 30px
+
+.cart_table
+  td
+    text-align: center
+
+.cart_quantity
+  width: 60px
+  padding: 5px
+  text-align: center
+
+.upload_catalog_form
+  width: 100%

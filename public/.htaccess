@@ -1,0 +1,14 @@
+#AddDefaultCharset UTF-8
+#DirectoryIndex index.php index.html
+#
+RewriteEngine on
+
+AddDefaultCharset utf-8
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png)$ [NC]
+RewriteRule .* index.php [L]
+
+ErrorDocument 404 errors/error404.php
