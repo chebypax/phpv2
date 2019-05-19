@@ -5,48 +5,72 @@ namespace app\controllers;
 
 
 use app\models\User;
+use app\services\Sessions;
 
 class UserController extends Controller
 {
-    public function actionRegister(){
+    public function actionRegister()
+    {
         echo $this->render('register_form', ['title' => 'Регистрация']);
     }
-    public function actionCreate(){
-        /*var_dump($_POST);
 
-        $a = password_hash('qwerty', PASSWORD_DEFAULT);
-        var_dump($a);
-        $b = password_verify('qwerty', $a);
-        var_dump($b);*/
-
-        $props= $_POST;
+    public function actionCreate()
+    {
+        $props = $_POST;
         $user = new User();
 
-        foreach ($props as $key=>$value) {
-            if($key == 'password'){
+        foreach ($props as $key => $value) {
+            if ($key == 'password') {
                 $value = password_hash($value, PASSWORD_DEFAULT);
             }
-            $user->$key = $value;
+            $user->$key = strip_tags($value);
         }
         $user->save();
 
 
     }
 
-    public function actionUpdate(){
-        $user = new User();
-        $props = User::getOne(2);
-        foreach ($props as $key=>$value) {
-            $user->$key = $value;
-        }
+    public function actionUpdate()
+    {
+        $user = User::getOne(2);
         $user->lastname = 'Кашенцев';
         $user->save();
     }
 
-    public function actionDelete(){
+    public function actionDelete()
+    {
 
-        $user = new User();
-        $user->id = 3;
+        $user = User::getOne(3);
         $user->delete();
-}
+    }
+
+    public function actionLogin()
+    {
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+        $user = User::getByLogin($login);
+        $path = $_SERVER['HTTP_REFERER'];
+        if($user && password_verify($password, $user->password)){
+            Sessions::set('user', $login);
+        }
+        header("Location: $path");
+    }
+
+    public function actionLogout()
+    {
+        $path = $_SERVER['HTTP_REFERER'];
+        Sessions::set('user', '');
+        header("Location: $path");
+    }
+
+    public function actionAdmin()
+    {
+        if (Sessions::get('user') != 'admin'){
+            header("Location: http://shop/");
+        }
+        echo $this->render('admin_panel',[
+            'title' => 'Панель администратора',
+            'session' => Sessions::getSessionInfo()
+        ]);
+    }
 }

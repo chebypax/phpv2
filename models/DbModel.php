@@ -26,7 +26,7 @@ abstract class DbModel implements IDbModel
     public static function getOne($id)
     {
         $tableName = static::getTableName();
-        $sql = "SELECT * FROM {$tableName} WHERE id = :id";
+        $sql = "SELECT * FROM {$tableName} WHERE `id` = :id";
         return Db::getInstance()->queryObject($sql, [':id' => $id], get_called_class());
     }
 
@@ -40,7 +40,7 @@ abstract class DbModel implements IDbModel
     public function delete()
     {
         $tableName = static::getTableName();
-        $sql = "DELETE FROM {$tableName} WHERE id = :id";
+        $sql = "DELETE FROM {$tableName} WHERE `id` = :id";
         return $this->db->execute($sql, [":id" => $this->id]);
     }
 
@@ -61,28 +61,36 @@ abstract class DbModel implements IDbModel
 
         $tableName = static::getTableName();
         $sql = "INSERT INTO `{$tableName}` ({$columns}) VALUES ({$placeholders})";
-        $this->db->execute($sql, $params);
+        $exec = $this->db->execute($sql, $params);
         $this->id = $this->db->lastInsertId();
-        return true;
+        return $exec;
     }
 
 
     public function update()
-    {
-        $tableName = static::getTableName();
-        $params = [];
 
-        foreach ($this as $key => $value) {
-            if (in_array($key, static::getPersonalProperties())) {
-                continue;
+        {
+            $params = [];
+            $columns = [];
+            $sql = "";
+            foreach ($this as $key => $value) {
+                if (in_array($key, static::getPersonalProperties())) {
+                    continue;
+                }
+                $sql .= "`{$key}` = :{$key}, ";
+
+                $params[":{$key}"] = $value;
+                $columns[] = "`{$key}`";
             }
-            $params[":{$key}"] = $value;
-            $sql = "UPDATE `{$tableName}` SET `{$key}` = :{$key}  WHERE `id` = :id";
-            $this->db->execute($sql, [":{$key}"=> $value, ":id"=> $this->id]);
-            $params[":{$key}"] = $value;
+            $tableName = static::getTableName();
+            $sql = substr($sql, 0, strlen($sql) - 2);
+            $sql = "UPDATE `{$tableName}` SET $sql WHERE `id` = $this->id";
+            $exec = $this->db->execute($sql, $params);
+            $this->id = $this->db->lastInsertId();
+            return $exec;
         }
-        return true;
-    }
+
+
 
     public function save(){
         if($this->id){
@@ -94,7 +102,7 @@ abstract class DbModel implements IDbModel
 
     public static function getPersonalProperties()
     {
-        return ['db', 'password2'];
+        return ['db'];
     }
 
 }

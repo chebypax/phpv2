@@ -5,18 +5,25 @@ namespace app\services;
 
 class Sessions
 {
-    public function start()
+    public static function start()
     {
         session_start();
     }
 
-    public function get($key)
+    public static function get($key)
     {
+        self::start();
         return $_SESSION[$key];
     }
 
-    public function set($key, $value)
+    public static function set($key, $value)
     {
+        self::start();
         $_SESSION[$key] = $value;
+    }
+
+    public static function getSessionInfo()
+    {
+        return $_SESSION;
     }
 }

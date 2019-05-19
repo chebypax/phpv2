@@ -354,4 +354,19 @@ body {
 .upload_catalog_form {
   width: 100%; }
 
+.mini-avatar {
+  height: 100px; }
+
+.image-block {
+  margin-bottom: 30px; }
+
+.gallery-image {
+  height: 150px; }
+
+.avatar {
+  outline: green 3px solid; }
+
+.cart_quantity {
+  width: 50px; }
+
 /*# sourceMappingURL=style.css.map */

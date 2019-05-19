@@ -4,6 +4,10 @@
 namespace app\controllers;
 
 
+use app\models\Category;
+use app\models\Image;
+use app\models\Order;
+use app\models\Product;
 use app\models\Test;
 use app\services\Db;
 
@@ -17,9 +21,13 @@ class TestController extends Controller
 //        $sql = "INSERT INTO `test` (`name`) VALUES ('newtext')";
 //        $db->execute($sql);
 //        var_dump($db);
-        $test = Test::getOne(1);
-        var_dump($test);
 
+//        $orderId = Order::getLastOrderId();
+//        var_dump($orderId); exit;
+        $a = Order::getNewOneByOrderId(1);
+        var_dump($a); exit;
+session_start();
+session_destroy();
 
     }
 }
