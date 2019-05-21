@@ -27,6 +27,7 @@ class User extends DbModel
     {
         $prop = parent::getPersonalProperties();
         $prop[] = 'password2';
+        $prop[] = 'AJAX';
         return $prop;
     }
 
@@ -35,5 +36,12 @@ class User extends DbModel
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE `login` = :login";
         return Db::getInstance()->queryObject($sql, [':login' => $login], get_called_class());
+    }
+
+    public static function getByEmail($email)
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} WHERE `email` = :email";
+        return Db::getInstance()->queryObject($sql, [':email' => $email], get_called_class());
     }
 }

@@ -15,7 +15,7 @@ class Image extends DbModel
     public $avatar;
 
 
-    private static $fileArray = 'myfile';
+    public static $fileArray = 'myfile';
 
     public function __construct()
     {

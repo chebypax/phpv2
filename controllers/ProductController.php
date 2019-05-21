@@ -69,7 +69,9 @@ class ProductController extends Controller
             $product->$key = strip_tags($value);
         }
         $product->save();
-        Image::add($id, false);
+        if ($_FILES[Image::$fileArray]['name'][0] !== "") {
+            Image::add($id, false);
+        }
         $path = $_SERVER['HTTP_REFERER'];
         header("Location: $path");
     }

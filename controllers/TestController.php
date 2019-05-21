@@ -24,8 +24,8 @@ class TestController extends Controller
 
 //        $orderId = Order::getLastOrderId();
 //        var_dump($orderId); exit;
-        $a = Order::getNewOneByOrderId(1);
-        var_dump($a); exit;
+//        $a = Order::getNewOneByOrderId(1);
+//        var_dump($a); exit;
 session_start();
 session_destroy();
 

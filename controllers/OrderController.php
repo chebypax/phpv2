@@ -31,15 +31,28 @@ class OrderController extends Controller
     }
     public function actionAddToCart()
     {
-        $id = (int) $_GET['id'];
-        $count = (int) $_POST['count'];
+
+        $id = (int) $_REQUEST['id'];
+        $count = (int) $_REQUEST['count'];
+        $price = (int) $_REQUEST['price'];
         $cart = Sessions::get("cart");
         $cart[$id] +=  $count;
         Sessions::set('cart', $cart);
         Sessions::set('quantity', Sessions::get('quantity') + $count);
+        Sessions::set('totalPrice', Sessions::get('totalPrice') + $count * $price);
 
+        if($_POST['AJAX'])
+        {
+            echo json_encode([
+                "status" => 1,
+                "quantity" => Sessions::get('quantity'),
+                "message" => "Товар добавлен в корзину"]);
 
-        header("Location: http://shop/");
+        } else {
+
+            header("Location: http://shop/");
+        }
+
     }
 
     public function actionCart()
@@ -47,37 +60,48 @@ class OrderController extends Controller
         $products = [];
         $cart = Sessions::get('cart');
 
-        $totalSum  = 0;
-
         foreach($cart as $key=>$value)
         {
             $products[$key] = Product::getDetailedOne($key);
             $products[$key]['quantity'] = $value;
             $products[$key]['totalPrice'] = $value * $products[$key]['price'];
-            $totalSum += $value * $products[$key]['price'];
+//            $totalSum += $value * $products[$key]['price'];
         }
         echo $this->render('cart', [
             'title' => 'Корзина',
             'products' => $products,
-            'totalSum' => $totalSum,
+            'totalPrice' => Sessions::get('totalPrice'),
             'session' => Sessions::getSessionInfo()
         ]);
     }
 
     public function actionDelete()
     {
-        $id = (int) $_GET['id'];
+        $price = (int) $_REQUEST['price'];
+        $id = (int) $_REQUEST['id'];
         $cart = Sessions::get("cart");
+        Sessions::set('totalPrice', Sessions::get('totalPrice') - $price * $cart[$id]);
         Sessions::set('quantity', Sessions::get('quantity') - $cart[$id]);
         unset($cart[$id]);
         Sessions::set('cart', $cart);
 
-        $path = $_SERVER['HTTP_REFERER'];
-        header("Location: $path");
+        if($_POST['AJAX'])
+        {
+            echo json_encode([
+                "status" => 1,
+                "quantity" => Sessions::get('quantity'),
+                "totalPrice" => Sessions::get('totalPrice')]);
+
+        } else {
+
+            $path = $_SERVER['HTTP_REFERER'];
+            header("Location: $path");
+        }
     }
 
     public function actionCreate()
     {
+
         if($user = User::getByLogin(Sessions::get('user')))
         {
             $name = $user->name;
@@ -86,7 +110,10 @@ class OrderController extends Controller
         } else {
             $name = $_POST['name'];
             $lastname = $_POST['lastname'];
+
             $phone = $_POST['phone'];
+            $phone = strip_tags($phone);
+            $phone = preg_replace("/[^0-9]/", '', $phone);
         }
         $orderId = Order::getLastOrderId() + 1;
 
@@ -123,5 +150,33 @@ class OrderController extends Controller
         }
         $path = $_SERVER['HTTP_REFERER'];
         header("Location: $path");
+    }
+
+    public function actionUpdate()
+    {
+        $id = (int) $_REQUEST['id'];
+        $count = (int) $_REQUEST['count'];
+        $price = (int) $_REQUEST['price'];
+        $cart = Sessions::get("cart");
+        $oldCount  = $cart[$id];
+        $cart[$id] =  $count;
+        $productPrice = $count * $price;
+        Sessions::set('cart', $cart);
+        Sessions::set('quantity', Sessions::get('quantity') + ($count - $oldCount));
+        Sessions::set('totalPrice', Sessions::get('totalPrice') + ($count - $oldCount) * $price);
+
+        if($_POST['AJAX'])
+        {
+            echo json_encode([
+                "status" => 1,
+                "quantity" => Sessions::get('quantity'),
+                "productPrice" => $productPrice,
+                "totalPrice" => Sessions::get('totalPrice')]
+                );
+
+        } else {
+
+            header("Location: http://shop/");
+        }
     }
 }
