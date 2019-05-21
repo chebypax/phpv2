@@ -17,17 +17,51 @@ class UserController extends Controller
     public function actionCreate()
     {
         $props = $_POST;
+        if($user = User::getByLogin($props['login']))
+        {
+            if($_POST['AJAX'])
+            {
+                echo json_encode(["status" => 0]);
+            } else {
+                $path = $_SERVER['HTTP_REFERER'];
+                header("Location: $path");
+            }
+            return;
+        }
+        if($user = User::getByEmail($props['email']))
+        {
+            if($_POST['AJAX'])
+            {
+                echo json_encode(["status" => 1]);
+            } else {
+                $path = $_SERVER['HTTP_REFERER'];
+                header("Location: $path");
+            }
+            return;
+        }
         $user = new User();
 
         foreach ($props as $key => $value) {
             if ($key == 'password') {
+                $value = strip_tags($value);
                 $value = password_hash($value, PASSWORD_DEFAULT);
+            }
+            if ($key == 'phone'){
+                $value = strip_tags($value);
+                $value = preg_replace("/[^0-9]/", '', $value);
             }
             $user->$key = strip_tags($value);
         }
         $user->save();
+        Sessions::set('user', $user->login);
 
-
+            if($_POST['AJAX'])
+            {
+                echo json_encode(["status" => 2, 'user' => $user] );
+            } else {
+                $path = $_SERVER['HTTP_REFERER'];
+                header("Location: $path");
+            }
     }
 
     public function actionUpdate()

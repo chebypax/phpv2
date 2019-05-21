@@ -14,24 +14,29 @@
                 <td><?=$item['name']?></td>
 
     <td>
-        <input data-id = "<?=$item['product_id']?>" class="cart_quantity" type="number" value= <?=$item['quantity']?>>
+        <input data-id = "<?=$item['id']?>" data-price = "<?=$item['price']?>"
+               class="cart_quantity" type="number" value= <?=$item['quantity']?>>
     </td>
     <td><?=$item['price']?></td>
-    <td><?=$item['totalPrice']?></td>
+    <td><span data-id = "<?=$item['id']?>" class="product-price">
+    <?=$item['totalPrice']?></span></td>
     <td>
-        <p><a href="/order/delete?id=<?=$item['id']?>">Удалить товар</a></p>
+        <p>
+            <a class="cart_delete_button" data-id="<?=$item['id']?>" data-price="<?=$item['price']?>"
+               href="/order/delete?id=<?=$item['id']?>&price=<?=$item['price']?>">
+                Удалить товар</a></p>
     </td>
     </tr>
     <?php endforeach;?>
 </table>
-<h4>Итого на сумму <?=$totalSum?></h4>
+<h4>Итого на сумму <span id="total-price"><?=$totalPrice?></span></h4>
 
 
 <form action='/order/create' method='post'>
     <?php if(!$params['session']['user']):?>
     <input type='text' name='name' placeholder='Имя' required>
     <input type='text' name='lastname' placeholder='Фамилия' required>
-    <input type='tel' name='phone' placeholder='Телефон' required>
-    <?endif;?>
+        <div><input class="phone_mask" type="text" name="phone" placeholder="Телефон" required><br></div>
+    <?php endif;?>
     <input type='submit' value='Оформить заказ'>
 </form>

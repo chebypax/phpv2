@@ -18,7 +18,7 @@
 
 <div class="header">Это хедер</div>
 
-
+<div class="header-fields">
 <?php if(!$params['session']['user']):?>
     <p><a class="header" href="/user/register">Регистрация</a></p>
     <form action='/user/login' method='post'>
@@ -28,19 +28,21 @@
     </form>
 <?php elseif ($params['session']['user'] == 'admin'):?>
     <p><a href='/user/admin'>Панель администратора</a></p>
-    <p><a href='/user/logout'>Сменить пользователя</a></p>
+    <p><a href='/user/logout'>Сменить пользователя (<?=$params['session']['user']?>)</a></p>
 <?php else :?>
-    <a href='/user/logout'>Сменить пользователя</a>
+    <a href='/user/logout'>Сменить пользователя (<?=$params['session']['user']?>)</a>
 <?php endif;?>
-
+</div>
 
 <p><a href="/">На главную</a>
-<a href='/order/cart'>Корзина(<?=$params['session']['quantity']?>)</a></p>
+<a href='/order/cart'>Корзина(<span id="cart-quantity"><?=$params['session']['quantity']?></span>)</a></p>
 
 <div class="content"><?= $content ?></div>
 
 <div class="footer">Это футер</div>
 
+
+<script src="/js/jquery.maskedinput.min.js"></script>
 <script src="/js/main.js"></script>
 </body>
 </html>
